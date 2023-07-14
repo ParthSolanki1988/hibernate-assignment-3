@@ -17,7 +17,7 @@ public class PatientService {
   @Autowired
   PatientRepository patientRepository;
 
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
+//  @Transactional(propagation = Propagation.REQUIRES_NEW)
   public Patient createPatient(Patient patient){
     log.info("Business logic here");
     Patient save = patientRepository.save(patient);

@@ -13,10 +13,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 @Service
 public class BookAppoinmentService {
-
+  Scanner sc = new Scanner(System.in);
   @Autowired
   AppoinmentRepository appoinmentRepository;
 
@@ -29,6 +30,8 @@ public class BookAppoinmentService {
     patientService.createPatient(patient);
     int id = patient.getId();
     System.out.println("Save Patient .......................");
+
+//    appoinmentRepository = null;
 
     /**
      * give null pointer exception
@@ -45,7 +48,7 @@ public class BookAppoinmentService {
     return "Appoinment Booked Id : " + appointmentNo;
   }
 
-  @Transactional(isolation = Isolation.REPEATABLE_READ)
+  @Transactional(isolation = Isolation.READ_COMMITTED)
   public List<Appointment> getAllAppoinment() {
     return appoinmentRepository.findAll();
   }
@@ -59,13 +62,29 @@ public class BookAppoinmentService {
   /**
    * start transaction;
    * update appointment set doctor_no=120 where id=1;
-   * hit getById() method in postman --> without  coommit update value show in postman, it is  dirty read
+   * hit getById() method in postman --> without  commit update value show in postman, it is  dirty read
    * @param id
    * @return
    */
-  @Transactional(isolation = Isolation.READ_UNCOMMITTED)
+  @Transactional(isolation = Isolation.REPEATABLE_READ)
   public Appointment getById(Long id) {
-    return appoinmentRepository.findById(id).get();
+    Appointment appointment = appoinmentRepository.findById(id).get();
+
+    while (true){
+      System.out.println("1.Read Value");
+      System.out.println("2.Exit");
+      int num = sc.nextInt();
+      if(num==1){
+        System.out.println(appointment);
+      }
+      else{
+        break;
+      }
+
+    }
+    return appointment;
   }
+
+
 
 }

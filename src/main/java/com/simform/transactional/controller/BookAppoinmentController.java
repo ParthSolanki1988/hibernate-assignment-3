@@ -4,16 +4,12 @@ import com.simform.transactional.dto.AppoinmentFormDto;
 import com.simform.transactional.entity.Appointment;
 import com.simform.transactional.service.BookAppoinmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/appoinments")
+@RequestMapping("api/v1/bookappoinments")
 public class BookAppoinmentController {
 
   @Autowired
